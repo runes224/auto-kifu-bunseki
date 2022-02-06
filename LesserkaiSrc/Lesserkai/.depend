@@ -1,0 +1,9 @@
+Lesserkai.o: Lesserkai.cpp WinAPI.h Sikou.h Kyokumen.h USIUtil.h
+Globals.o: Globals.cpp
+Joseki.o: Joseki.cpp Kyokumen.h
+KomaMoves.o: KomaMoves.cpp
+Kyokumen.o: Kyokumen.cpp WinAPI.h Kyokumen.h
+Sikou.o: Sikou.cpp WinAPI.h Sikou.h Kyokumen.h
+Te.o: Te.cpp Kyokumen.h
+USIUtil.o: USIUtil.cpp USIUtil.h Kyokumen.h
+WinAPI.o: WinAPI.cpp WinAPI.h
