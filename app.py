@@ -2,7 +2,7 @@ import sys
 import requests
 from cshogi.usi import Engine
 
-engine = Engine('/content/LesserkaiSrc/Lesserkai/Lesserkai')
+engine = Engine('/home/ec2-user/auto-kifu-bunseki/LesserkaiSrc/Lesserkai/Lesserkai')
 
 response = requests.get('https://www.shogi-extend.com/w.json?query=rentokomori&per=10')
 jsonData = response.json()
