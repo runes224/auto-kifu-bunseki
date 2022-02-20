@@ -1,6 +1,6 @@
 import sys
 import requests
-from shogi import Engine
+from cshogi.usi import Engine
 
 
 def listoutput():
