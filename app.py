@@ -1,29 +1,28 @@
-import sys
-import requests
-from cshogi.usi import Engine
+from flask import Flask, request, render_template
+app = Flask(__name__)
+import wrapper
+import sys,io
+from logging import FileHandler
 
-engine = Engine('/home/ec2-user/auto-kifu-bunseki/LesserkaiSrc/Lesserkai/Lesserkai')
+handler = FileHandler(filename="test.log", encoding='utf-8')
 
-response = requests.get('https://www.shogi-extend.com/w.json?query=rentokomori&per=10')
-jsonData = response.json()
-kif = jsonData["records"][0]["sfen_body"]
-kifList = kif.split( )
-del kifList[0:7]
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
-# engine.setoption("MultiPV", "2")
-engine.isready()
-engine.usinewgame()
-# engine.position()
-# engine.go(listener=print)
+import sys,io
 
-j = []
-for i in kifList:
-    j.append(i)
-    engine.position(j)
-    # engine.position(sfen='sfen 7nl/5kP2/3p2g1p/2p1gp3/p6sP/s1BGpN3/4nPSp1/1+r4R2/L1+p3K1L w GSNLPb6p 122')
-    # engine.go()
-    #ここから下はなんとかしたかったけど不明
-    sys.stdout = open('out.txt', 'a')
-    engine.go(listener=print)
-sys.stdout = sys.__stdout__ # 元に戻す
-# return kifList
+@app.route("/")
+def show():
+    return render_template("index.html")
+
+@app.route("/result", methods=["POST"])
+def result():
+    path = 'kifu.kif'
+    kifutxt = request.form["kifutxt"]
+    file = open(path, encoding="UTF-8", mode="w", newline="\n") #ここで改行コードを指定しないと改行が2重になる。動作に影響はないのだが。
+    file.write(kifutxt)
+    file.close()
+    img = wrapper.result()
+    imgtag = '<img src="data:image/png;base64,' + img + '" />'
+    return render_template("index.html", kifutxt = kifutxt, img = imgtag)
+
+app.run(host='0.0.0.0', debug=True)
